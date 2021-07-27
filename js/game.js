@@ -24,10 +24,12 @@ export default class Game {
     async GameLoop(time) {
         let delta = time - this._time;
         this._time = time;
-        this._gameStats = await this._currentRoom(this._context, this._gameStats, this._globalStats, delta, this._inputListener.PressedKeys);
-        if ("isDone" in this._gameStats) {
-            this._gameStats = null;
-            this._currentRoom = this._gameStats.room;
+        if (delta < 150) {
+            this._gameStats = await this._currentRoom(this._context, this._gameStats, this._globalStats, delta, this._inputListener.PressedKeys);
+            if ("isDone" in this._gameStats) {
+                this._gameStats = null;
+                this._currentRoom = this._gameStats.room;
+            }
         }
         requestAnimationFrame((t) => this.GameLoop(t));
     }
