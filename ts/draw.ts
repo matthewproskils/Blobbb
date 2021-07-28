@@ -25,5 +25,17 @@ export function drawTextBottom(Text: string, context: CanvasRenderingContext2D, 
   context.drawImage(TextImg, 0, 0, TextImg.width, TextImg.height, 0, (context.canvas.height / 3) * 2, context.canvas.width, (context.canvas.height / 3));
   context.textBaseline = "hanging";
   context.fillStyle = colors[0];
-  context.fillText(Text, context.canvas.width / 15, (context.canvas.height / 3) * 2 + context.canvas.height / 15);
+  let SplitText = Text.split(" ");
+  let lines = 1;
+  let CurrentText = "";
+  for (let i = 0; i < SplitText.length; i++) {
+    if(context.measureText(CurrentText + SplitText[i]).width > context.canvas.width - 20) {
+      context.fillText(CurrentText, 10, (context.canvas.height / 3) * 2 + (15 * lines));
+      lines++;
+      CurrentText = SplitText[i];
+    } else {
+      CurrentText = CurrentText + " " + SplitText[i];
+    }
+  }
+  context.fillText(CurrentText, 10, (context.canvas.height / 3) * 2 + (15 * lines));
 }
